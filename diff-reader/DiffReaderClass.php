@@ -1,8 +1,9 @@
 <?php
 /**
- *
+ * Main class
  *
  * @author  Sergey boonya Buynitskiy boonya41@gmail.com
+ * @url     https://github.com/boonya/Diff-Reader
  */
 class DiffReader
 {
@@ -192,6 +193,7 @@ class DiffReader
 
     /**
      *
+     * @return string
      */
     protected function _checkWhiteSpaces($string)
     {
