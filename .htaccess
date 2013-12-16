@@ -1,0 +1,8 @@
+php_value display_errors on
+DirectoryIndex ls.php
+
+####
+RewriteEngine on
+RewriteBase /
+####
+RewriteRule ^(.*).diff$ diff-reader.php?file=$1.diff [L]
