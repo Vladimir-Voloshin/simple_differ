@@ -2,13 +2,13 @@ body {
     display: block;
     font-family: monospace;
     padding: 0;
-    margin: 0;
+    margin: 5px;
     background-color: #000000;
     color: #999999;
 }
 ol {
     padding: 0;
-    margin: 5px;
+    margin: 0px;
 }
 li {
     padding: 0;

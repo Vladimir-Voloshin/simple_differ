@@ -39,23 +39,21 @@ class DiffReader
     }
 
     /**
-     * ***
+     * Return array of diff files only
      *
-     * @return void
+     * Scans the specified directory, discards all found items
+     * except files with the extension ".diff" and returns array with it.
+     *
+     * @param  string $dir
+     * @return array
      */
     public function listing($dir)
     {
-        $dir = !empty($dir) ? $dir : __DIR__;
+        $dir = (empty($dir) || !is_dir($dir))
+            ? realpath(__DIR__ . '/../')
+            : $dir;
         $list = scandir($dir);
-        $list = array_diff($list, array(
-            '.',
-            '..',
-            '.htaccess',
-            'diff-reader',
-            'diff-reader.php',
-            'ls.php',
-        ));
-
+        $list = preg_filter('/.\.diff$/i', '$0', $list);
         return $list;
     }
 
