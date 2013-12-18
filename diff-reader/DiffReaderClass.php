@@ -68,19 +68,6 @@ class DiffReader
     }
 
     /**
-     *
-     */
-    public function getAdditionalData()
-    {
-        /** Get username, location & current dir */
-        preg_match('/([a-zA-Z0-9]+)\.dev\-([a-z]{2})\.cupidplc\.com$/i', $_SERVER['SERVER_NAME'], $match);
-        $username = !empty($match[1]) ? $match[1] : 'username';
-        $location = !empty($match[2]) ? $match[2] : 'dp';
-        $pathArray = explode(DIRECTORY_SEPARATOR, __DIR__);
-        $currentDir = end($pathArray);
-    }
-
-    /**
      * Checks file
      *
      * @return $this
