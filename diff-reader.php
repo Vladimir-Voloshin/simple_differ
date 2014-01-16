@@ -2,7 +2,15 @@
 require_once('diff-reader/DiffReaderClass.php');
 $file = $_GET['file'];
 $reader = new DiffReader();
-$reader->getFile($file);
+try {
+    $content = $reader->getFile($file)
+                    ->getContent();
+} catch (InvalidArgumentException $exc) {
+    header("HTTP/1.0 404 Not Found");
+    $error[1] = $exc->getMessage();
+} catch (LengthException $exc) {
+    $error[2] = $exc->getMessage();
+}
 ?>
 <!DOCTYPE html>
 <html>
@@ -19,9 +27,10 @@ $reader->getFile($file);
         </style>
     </head>
     <body>
-        <?php $content = $reader->getContent();
-            if (empty($content)): ?>
-            <div class="file-not-found">File not found</div>
+        <?php if (!empty($error[1])): ?>
+            <div class="file-not-found"><?php echo $error[1] ?></div>
+        <?php elseif (!empty($error[2])): ?>
+            <div class="file-not-found"><?php echo $error[2] ?></div>
         <?php else: ?>
             <ol>
             <?php foreach ($content as $i => $line) : ?>

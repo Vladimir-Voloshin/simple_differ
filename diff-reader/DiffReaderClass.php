@@ -30,12 +30,7 @@ class DiffReader
      */
     public function getFile($file)
     {
-        try {
-            $this->_read($file)
-                 ->_procceed();
-        } catch (Exception $exc) {
-            ;
-        }
+        $this->_read($file)->_procceed();
     }
 
     /**
@@ -70,14 +65,12 @@ class DiffReader
     /**
      * Checks file
      *
-     * @return $this
+     * @return boolean
      */
     protected function _isFileExists($file)
     {
-        if (!preg_match('/([^\/]+)\.diff$/', $file)) {
-            throw new Exception('File not found.');
-        }
-        return $this;
+        if (!preg_match('/([^\/]+)\.diff$/', $file)) return false;
+        return true;
     }
 
     /**
@@ -87,9 +80,11 @@ class DiffReader
      */
     protected function _read($file)
     {
-        $this->_isFileExists($file);
+        if ($this->_isFileExists($file)) {
+            throw new InvalidArgumentException('File not found.');
+        }
         $content = file($file);
-        if (empty($content)) throw new Exception('File are empty.');
+        if (empty($content)) throw new LengthException('File are empty.');
         foreach ($content as $i => &$line) {
             $this->_content[]['content'] = $line;
         }
@@ -103,7 +98,7 @@ class DiffReader
      */
     protected function _procceed()
     {
-        if (empty($this->_content)) throw new Exception('Content is empty.');
+        if (empty($this->_content)) throw new LengthException('Content is empty.');
         foreach ($this->_content as $i => &$line) {
             $line['content'] = $this->_trimEndString($line['content']);
             $line['content'] = $this->_replaceSymbols($line['content']);
