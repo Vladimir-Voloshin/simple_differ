@@ -31,6 +31,7 @@ class DiffReader
     public function getFile($file)
     {
         $this->_read($file)->_procceed();
+        return $this;
     }
 
     /**
@@ -70,6 +71,7 @@ class DiffReader
     protected function _isFileExists($file)
     {
         if (!preg_match('/([^\/]+)\.diff$/', $file)) return false;
+        if (!file_exists($file)) return false;
         return true;
     }
 
@@ -80,7 +82,7 @@ class DiffReader
      */
     protected function _read($file)
     {
-        if ($this->_isFileExists($file)) {
+        if (!$this->_isFileExists($file)) {
             throw new InvalidArgumentException('File not found.');
         }
         $content = file($file);
