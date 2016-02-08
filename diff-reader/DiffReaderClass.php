@@ -7,21 +7,44 @@
  */
 class DiffReader
 {
-
+    /**
+     * weather we should print copy/paste-friendly version 
+     *
+     * @var boolean
+     */
+    protected $_strip_line_numbers = false; 
     /**
      * Array of file lines
      *
      * @var array
      */
     protected $_content = array();
+    /**
+     * Array of symbols should be replaced
+     *
+     * @var array
+     */
+    protected $_search = array('&', '<', '>', ' ');
+    /**
+     * Array with symbols for replacement
+     *
+     * @var array
+     */
+    protected $_replace = array('&amp;', '&lt;', '&gt;', '&nbsp;');
 
     /**
      * Read and procced file
      *
      * @return void
      */
-    public function __construct()
-    {}
+    public function __construct($strip_line_numbers)
+    {
+      if(!empty($strip_line_numbers))
+      {
+        $this->_search  = array_merge($this->_search,  array('+', '-'));
+        $this->_replace = array_merge($this->_replace, array(' ', ' '));
+      }
+    }
 
     /**
      * Read and procced file
@@ -103,8 +126,8 @@ class DiffReader
         if (empty($this->_content)) throw new LengthException('Content is empty.');
         foreach ($this->_content as $i => &$line) {
             $line['content'] = $this->_trimEndString($line['content']);
-            $line['content'] = $this->_replaceSymbols($line['content']);
             $line['class'] = $this->_addClasses($line['content']);
+            $line['content'] = $this->_replaceSymbols($line['content']);
             $line['content'] = $this->_addTags($line['content']);
         }
         return $this;
@@ -123,9 +146,7 @@ class DiffReader
      */
     protected function _replaceSymbols($string)
     {
-        $search = array('&', '<', '>');
-        $replace = array('&amp;', '&lt;', '&gt;');
-        return str_replace($search, $replace, $string);
+        return str_replace($this->_search, $this->_replace, $string);
     }
 
     /**
