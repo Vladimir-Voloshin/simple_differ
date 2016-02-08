@@ -16,17 +16,19 @@ $reader = new DiffReader();
         <link media="all" rel="stylesheet" type="text/css" href="./diff-reader/main.css" />
         <style>
             .total {
-                font-size: 150%;
                 color: #AA0000;
+                font-size: 150%;
             }
             ol li {
                 margin: 5px 0;
             }
             ol li a {
-                color: #999999;
-                text-decoration: none;
                 border-left: transparent 2px solid;
+                color: #c3c3c3;
+                font-size: 18px;
+                font-weight: bold;
                 padding-left: 5px;
+                text-decoration: none;
             }
             ol li a:hover {
                 border-left-color: #00AA00;
@@ -43,7 +45,7 @@ $reader = new DiffReader();
             <div class="total">Total: <?php echo count($listing) ?></div>
             <ol>
             <?php foreach ($listing as &$item) : ?>
-                <li><a href="./<?php echo $item ?>"><?php echo $item ?></a></li>
+                <li><a href="./diff_reader.php?file=<?php echo $item ?>"><?php echo $item ?></a></li>
             <?php endforeach; ?>
             </ol>
         <?php endif; ?>

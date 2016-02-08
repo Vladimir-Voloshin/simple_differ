@@ -1,10 +1,10 @@
 <?php
 require_once('diff-reader/DiffReaderClass.php');
 $file = $_GET['file'];
-$reader = new DiffReader();
+$reader = new DiffReader($_GET['stp']);
 try {
     $content = $reader->getFile($file)
-                    ->getContent();
+                      ->getContent();
 } catch (InvalidArgumentException $exc) {
     header("HTTP/1.0 404 Not Found");
     $error[1] = $exc->getMessage();
@@ -19,11 +19,12 @@ try {
         <title>Diff Reader: <?php echo $file ?></title>
         <link media="all" rel="stylesheet" type="text/css" href="/diff-reader/main.css" />
         <style>
-            .file-info {color: #FFFFFF;}
-            .content-start {color: #00CCCC;}
+            body{background-color:#313131;color:#f1f1f1;}
             .added {color: #00AA00;}
-            .removed {color: #AA0000;}
+            .content-start {color: #00CCCC;}
             .empty-string {background-color: #AA0000;}
+            .file-info {color: #E9FD02;}
+            .removed {color: #F85F5F;}
         </style>
     </head>
     <body>
